@@ -1,0 +1,14 @@
+scrounger:
+  build: scrounger
+  command: python -u app/scrounger.py
+  ports:
+    - "5000:5000"
+  volumes:
+    - ./scrounger:/app
+  links:
+    - db
+  environment:
+    - RUN_SCHEDULER=True
+
+db:
+  image: mongo:3.0.2

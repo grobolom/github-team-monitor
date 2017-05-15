@@ -1,0 +1,175 @@
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  padding: 20px;
+}
+
+select {
+  font-size: 14px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.user-information {
+  margin-top: 20px;
+  background-color: #f6f8fa;
+  border: 1px solid #e1e4e8;
+  border-radius: 3px 3px 0 0;
+}
+
+.user-information .name {
+  font-size: 14px;
+  font-weight: 600;
+  padding: 5px 10px;
+}
+
+.pull-requests {
+  border-left: 1px #e1e4e8 solid !important;
+  border-bottom: 1px #e1e4e8 solid !important;
+  border-right: 1px #e1e4e8 solid !important;
+  margin-top: 20px;
+}
+
+.pull-request {
+  display: block;
+  padding: 0.5rem 1rem;
+  margin: -1px 0px -1px 0px;
+  list-style-type: none;
+  border-top: 1px solid #e1e4e8;
+  vertical-align: middle;
+}
+
+.pull-request > div {
+  display: inline-block;
+}
+
+.pull-request .repo-name {
+  font-weight: 600;
+  font-size: 16px;
+  padding-right: 4px;
+  line-height: 20px;
+  color: #586069;
+  width: 200px;
+}
+
+.pull-request .pr-name {
+  font-weight: 600;
+  font-size: 16px;
+  padding-right: 4px;
+  line-height: 20px;
+  color: #24292e;
+  width: 600px;
+}
+
+.pull-request .pr-name a {
+  color: #333;
+  text-decoration: none;
+}
+
+.pull-request .status {
+  width: 100px;
+}
+
+.pull-request .flags {
+  line-height: 20px;
+}
+
+.label {
+    display: block;
+    padding: 3px 4px;
+    margin-right: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+    color: #fff;
+    border-radius: 2px;
+    box-shadow: inset 0 -1px 0 rgba(27,31,35,0.12);
+    background-color: #777;
+}
+
+.label.hidden {
+  display: none;
+}
+
+.label.ready {
+  background-color: #ffbaba;
+  color: #333;
+}
+
+.label.in-progress {
+  background-color: #fbca04;
+  color: #333;
+}
+
+.label.do-not-merge {
+  background-color: #b60205;
+  color: #fff;
+}
+
+.label.pass {
+  background-color: #DFF2BF;
+  color: #333;
+}
+
+.label.merge-status.ready {
+  background-color: #009800;
+  color: #FFF;
+}
+
+.label.merge-status.dependency {
+  background-color: #5319e7;
+  color: #FFF;
+}
+
+.label.comments-status.comments {
+  background-color: #eb6420;
+  color: #FFF;
+}
+
+.user-information div {
+  display: inline-block;
+}
+
+.pull-request .extras {
+  display: none;
+  position: absolute;
+  left: 240px;
+  margin-top: 7px;
+  background: #FFF;
+  padding: 8px 15px 5px 10px;
+  font-size: 12px;
+  font-weight: 600;
+
+  border: 1px solid rgba(27,31,35,0.15);
+  border-radius: 3px;
+  box-shadow: 0 3px 12px rgba(27,31,35,0.15);
+}
+
+.pull-request .extras > div {
+}
+
+.pull-request .extras .author {
+  color: #586069;
+}
+
+.pull-request .extras .assignee {
+}
+
+.pull-request .extras .author span {
+  position: relative;
+  top: -5px;
+  left: 5px;
+}
+
+.pull-request .extras .assignee span {
+  position: relative;
+  top: -5px;
+  left: 5px;
+}
+
+.pr-name:hover ~ .extras {
+  display: block;
+}
