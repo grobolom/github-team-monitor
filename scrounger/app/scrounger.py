@@ -11,7 +11,8 @@ from pymongo import MongoClient
 
 from graphql import query, flatten_response
 from settings import (
-    LOGGING, SCHEDULER_JOBS, SCHEDULER_TIMEZONE, SCHEDULER_API_ENABLED, ORGS_TO_TRACK, TOKEN
+    LOGGING, SCHEDULER_JOBS, SCHEDULER_TIMEZONE, SCHEDULER_API_ENABLED, ORGS_TO_TRACK, TOKEN,
+    RUN_SCHEDULER
 )
 
 
@@ -98,17 +99,18 @@ def healthcheck():
 
 
 if __name__ == "__main__":
-    app.config.update(
-        JOBS=SCHEDULER_JOBS,
-        SCHEDULER_API_ENABLED=SCHEDULER_API_ENABLED,
-        SCHEDULER_TIMEZONE=SCHEDULER_TIMEZONE
-    )
+    if RUN_SCHEDULER:
+        app.config.update(
+            JOBS=SCHEDULER_JOBS,
+            SCHEDULER_API_ENABLED=SCHEDULER_API_ENABLED,
+            SCHEDULER_TIMEZONE=SCHEDULER_TIMEZONE
+        )
 
-    # only start this in the parent process
-    if not app.debug or os.environ.get('WERKZEUG_RUN_MAIN') == 'true':
-        logger.debug('starting scheduler')
-        scheduler = APScheduler()
-        scheduler.init_app(app)
-        scheduler.start()
+        # this restricts the scheduler to running in the parent process
+        if not app.debug or os.environ.get('WERKZEUG_RUN_MAIN') == 'true':
+            logger.debug('starting scheduler')
+            scheduler = APScheduler()
+            scheduler.init_app(app)
+            scheduler.start()
 
     app.run(host="0.0.0.0", port=5000, debug=True)

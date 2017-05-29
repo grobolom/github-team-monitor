@@ -44,4 +44,4 @@ SCHEDULER_API_ENABLED = True
 
 SCHEDULER_TIMEZONE = "America/New_York"
 
-RUN_SCHEDULER = os.environ.get('RUN_SCHEDULER', 'True') == 'True'
+RUN_SCHEDULER = os.environ.get('RUN_SCHEDULER', 'False') == 'True'
