@@ -2,6 +2,8 @@ import json
 import os
 from logging import getLogger
 from logging.config import dictConfig
+from time import strptime
+from datetime import datetime, timedelta
 
 import requests
 from bson.json_util import dumps
@@ -12,7 +14,7 @@ from pymongo import MongoClient
 from graphql import query, flatten_response
 from settings import (
     LOGGING, SCHEDULER_JOBS, SCHEDULER_TIMEZONE, SCHEDULER_API_ENABLED, ORGS_TO_TRACK, TOKEN,
-    RUN_SCHEDULER
+    RUN_SCHEDULER, TIMESTAMP_FORMAT
 )
 
 
@@ -76,7 +78,7 @@ def update():
     url = 'https://api.github.com/graphql'
     headers = {'Authorization': 'Bearer {}'.format(TOKEN)}
 
-    new_issues = {}
+    new_prs = {}
     for org in ORGS_TO_TRACK:
         logger.debug('finding all issues in {}'.format(org))
 
@@ -86,11 +88,17 @@ def update():
         resp = flatten_response(r.json())
 
         logger.debug('found {} issues for {}'.format(len(resp), org))
-        new_issues.update(resp)
+        new_prs.update(resp)
 
     logger.debug('dropping all issues and updating')
     db.gitdb.everything.delete_many({})
-    db.gitdb.everything.insert_many(list(new_issues.values()))
+
+    # filter out PRs that are greater than 90 days old
+    for pr in new_prs.values():
+        issue_time = pr['updated_at']
+        parsed_time = datetime(*(strptime(issue_time, TIMESTAMP_FORMAT))[:6])
+        if datetime.now() - parsed_time < timedelta(days=90):
+            db.gitdb.everything.insert_one(pr)
 
     return 'success'
 

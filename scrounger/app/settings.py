@@ -31,6 +31,8 @@ TOKEN = os.environ.get('GITHUB_TOKEN', '66d9528f377307629fd1dbff70e1b64aeaa90dac
 
 ORGS_TO_TRACK = os.environ.get('ORGS', 'HearstCorp,Hearst-Hatchery,HearstDigitalStudios').split(',')
 
+TIMESTAMP_FORMAT = '%Y-%m-%dT%H:%M:%SZ'
+
 SCHEDULER_JOBS = [
     {
         'id': 'update',
