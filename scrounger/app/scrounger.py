@@ -36,9 +36,10 @@ def teams():
         _items = db.gitdb.teams.find()
         items = [item for item in _items]
 
-        headers = {}
-        headers["Content-Type"] = "application/json"
-        headers['Access-Control-Allow-Origin'] = '*'
+        headers = {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+        }
 
         return dumps(items), 200, headers
     else:
@@ -61,9 +62,10 @@ def teams_issues(name):
 
     items = [item for item in _items]
 
-    headers = {}
-    headers["Content-Type"] = "application/json"
-    headers['Access-Control-Allow-Origin'] = '*'
+    headers = {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+    }
 
     return dumps(items), 200, headers
 
@@ -74,7 +76,7 @@ def update():
     url = 'https://api.github.com/graphql'
     headers = {'Authorization': 'Bearer {}'.format(TOKEN)}
 
-    issues = {}
+    new_issues = {}
     for org in ORGS_TO_TRACK:
         logger.debug('finding all issues in {}'.format(org))
 
@@ -84,11 +86,11 @@ def update():
         resp = flatten_response(r.json())
 
         logger.debug('found {} issues for {}'.format(len(resp), org))
-        issues.update(resp)
+        new_issues.update(resp)
 
     logger.debug('dropping all issues and updating')
     db.gitdb.everything.delete_many({})
-    db.gitdb.everything.insert_many(list(issues.values()))
+    db.gitdb.everything.insert_many(list(new_issues.values()))
 
     return 'success'
 
