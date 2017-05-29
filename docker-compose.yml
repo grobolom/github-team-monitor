@@ -10,9 +10,6 @@ scrounger:
   environment:
     - RUN_SCHEDULER=False
 
-db:
-  image: mongo:3.0.2
-
 data:
   restart: always
   image: postgres:latest

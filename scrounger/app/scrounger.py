@@ -7,19 +7,13 @@ import requests
 from bson.json_util import dumps
 from flask import Flask, request
 from flask_apscheduler import APScheduler
-from pymongo import MongoClient
 
 from graphql import query, flatten_response
-from settings import (
-    LOGGING, SCHEDULER_JOBS, SCHEDULER_TIMEZONE, SCHEDULER_API_ENABLED, ORGS_TO_TRACK, TOKEN,
-    RUN_SCHEDULER
-)
+from settings import LOGGING, ORGS_TO_TRACK, TOKEN, RUN_SCHEDULER, FlaskBaseConfig
 
 
 dictConfig(LOGGING)
 app = Flask(__name__)
-client = MongoClient(os.environ['DB_PORT_27017_TCP_ADDR'], 27017)
-db = client.gitdb
 logger = getLogger('main')
 
 
@@ -101,13 +95,9 @@ def healthcheck():
 
 
 if __name__ == "__main__":
-    if RUN_SCHEDULER:
-        app.config.update(
-            JOBS=SCHEDULER_JOBS,
-            SCHEDULER_API_ENABLED=SCHEDULER_API_ENABLED,
-            SCHEDULER_TIMEZONE=SCHEDULER_TIMEZONE
-        )
+    app.config.from_object(FlaskBaseConfig)
 
+    if RUN_SCHEDULER:
         # this restricts the scheduler to running in the parent process
         if not app.debug or os.environ.get('WERKZEUG_RUN_MAIN') == 'true':
             logger.debug('starting scheduler')
