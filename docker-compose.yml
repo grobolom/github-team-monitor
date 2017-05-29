@@ -8,7 +8,7 @@ scrounger:
   links:
     - db
   environment:
-    - RUN_SCHEDULER=True
+    - RUN_SCHEDULER=False
 
 db:
   image: mongo:3.0.2
