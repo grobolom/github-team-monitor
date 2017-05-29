@@ -1,4 +1,6 @@
 Flask
 Flask-APScheduler
+Flask-SQLAlchemy
+psycopg2==2.6
 pymongo
 requests

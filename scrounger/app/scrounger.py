@@ -7,6 +7,7 @@ import requests
 from bson.json_util import dumps
 from flask import Flask, request
 from flask_apscheduler import APScheduler
+from flask_sqlalchemy import SQLAlchemy
 
 from graphql import query, flatten_response
 from settings import LOGGING, ORGS_TO_TRACK, TOKEN, RUN_SCHEDULER, FlaskBaseConfig
@@ -14,7 +15,9 @@ from settings import LOGGING, ORGS_TO_TRACK, TOKEN, RUN_SCHEDULER, FlaskBaseConf
 
 dictConfig(LOGGING)
 app = Flask(__name__)
+app.config.from_object(FlaskBaseConfig)
 logger = getLogger('main')
+db = SQLAlchemy(app)
 
 
 @app.route('/issues')
@@ -95,8 +98,6 @@ def healthcheck():
 
 
 if __name__ == "__main__":
-    app.config.from_object(FlaskBaseConfig)
-
     if RUN_SCHEDULER:
         # this restricts the scheduler to running in the parent process
         if not app.debug or os.environ.get('WERKZEUG_RUN_MAIN') == 'true':

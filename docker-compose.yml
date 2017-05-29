@@ -9,6 +9,7 @@ scrounger:
     - postgres:postgres
   environment:
     - RUN_SCHEDULER=False
+    - PYTHONPATH=/app/app/
 
 data:
   restart: always

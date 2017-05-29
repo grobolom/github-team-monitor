@@ -46,7 +46,7 @@ class FlaskBaseConfig(object):
     SCHEDULER_API_ENABLED = True
     SCHEDULER_TIMEZONE = "America/New_York"
 
-    DEBUG = os.environ.get('DEBUG', True)
+    DEBUG = os.environ.get('DEBUG', False)
     DB_NAME = os.environ.get('DB_NAME', 'postgres')
     DB_USER = os.environ.get('DB_USER', 'postgres')
     DB_PASS = os.environ.get('DB_PASS', 'postgres')
