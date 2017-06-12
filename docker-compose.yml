@@ -1,4 +1,6 @@
 scrounger:
+  container_name: scrounger
+  restart: always
   build: scrounger
   command: python -u app/scrounger.py
   ports:
@@ -6,9 +8,22 @@ scrounger:
   volumes:
     - ./scrounger:/app
   links:
-    - db
+    - postgres:postgres
   environment:
     - RUN_SCHEDULER=False
 
-db:
-  image: mongo:3.0.2
+data:
+  container_name: data
+  restart: always
+  image: postgres:latest
+  volumes:
+    - /var/lib/postgresql
+
+postgres:
+  container_name: postgres
+  restart: always
+  image: postgres:latest
+  volumes_from:
+    - data
+  ports:
+    - "5432:5432"

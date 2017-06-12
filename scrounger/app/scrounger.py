@@ -8,26 +8,25 @@ from datetime import datetime, timedelta
 import requests
 from bson.json_util import dumps
 from flask import Flask, request
+from flask_sqlalchemy import SQLAlchemy
 from flask_apscheduler import APScheduler
-from pymongo import MongoClient
 
 from graphql import query, flatten_response
-from settings import (
-    LOGGING, SCHEDULER_JOBS, SCHEDULER_TIMEZONE, SCHEDULER_API_ENABLED, ORGS_TO_TRACK, TOKEN,
-    RUN_SCHEDULER, TIMESTAMP_FORMAT
-)
+from settings import BaseConfig
 
-
-dictConfig(LOGGING)
-app = Flask(__name__)
-client = MongoClient(os.environ['DB_PORT_27017_TCP_ADDR'], 27017)
-db = client.gitdb
+dictConfig(BaseConfig.LOGGING)
 logger = getLogger('main')
+
+app = Flask(__name__)
+app.config.from_object(BaseConfig)
+db = SQLAlchemy(app)
+
+from db.models import *
 
 
 @app.route('/issues')
 def issues():
-    items = [item for item in db.gitdb.everything.find()]
+    items = [item for item in PullRequest.query.all()]
 
     return dumps(items), 200, {'Content-Type': 'application/json'}
 
@@ -76,10 +75,10 @@ def teams_issues(name):
 def update():
 
     url = 'https://api.github.com/graphql'
-    headers = {'Authorization': 'Bearer {}'.format(TOKEN)}
+    headers = {'Authorization': 'Bearer {}'.format(BaseConfig.TOKEN)}
 
     new_prs = {}
-    for org in ORGS_TO_TRACK:
+    for org in BaseConfig.ORGS_TO_TRACK:
         logger.debug('finding all issues in {}'.format(org))
 
         # using a % string interpolation here because our query has {} in it already
@@ -91,14 +90,18 @@ def update():
         new_prs.update(resp)
 
     logger.debug('dropping all issues and updating')
-    db.gitdb.everything.delete_many({})
+    deleted = PullRequest.query.delete()
+    logger.debug('deleted {} pull requests'.format(deleted))
 
     # filter out PRs that are greater than 90 days old
     for pr in new_prs.values():
         issue_time = pr['updated_at']
-        parsed_time = datetime(*(strptime(issue_time, TIMESTAMP_FORMAT))[:6])
+        parsed_time = datetime(*(strptime(issue_time, BaseConfig.TIMESTAMP_FORMAT))[:6])
         if datetime.now() - parsed_time < timedelta(days=90):
-            db.gitdb.everything.insert_one(pr)
+            new_pr = PullRequest(json.loads(pr))
+            db.session.add(new_pr)
+
+    db.session.commit()
 
     return 'success'
 
@@ -109,13 +112,7 @@ def healthcheck():
 
 
 if __name__ == "__main__":
-    if RUN_SCHEDULER:
-        app.config.update(
-            JOBS=SCHEDULER_JOBS,
-            SCHEDULER_API_ENABLED=SCHEDULER_API_ENABLED,
-            SCHEDULER_TIMEZONE=SCHEDULER_TIMEZONE
-        )
-
+    if BaseConfig.RUN_SCHEDULER:
         # this restricts the scheduler to running in the parent process
         if not app.debug or os.environ.get('WERKZEUG_RUN_MAIN') == 'true':
             logger.debug('starting scheduler')
