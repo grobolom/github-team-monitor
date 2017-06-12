@@ -1,4 +1,4 @@
-query = '''
+QUERY = '''
 
 query {
   organization(login: "%s") {

@@ -10,7 +10,7 @@ from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_apscheduler import APScheduler
 
-from graphql import query, flatten_response
+from graphql import QUERY, flatten_response
 from settings import BaseConfig
 
 dictConfig(BaseConfig.LOGGING)
@@ -81,7 +81,7 @@ def update():
         logger.debug('finding all issues in {}'.format(org))
 
         # using a % string interpolation here because our query has {} in it already
-        q = {"query": (query % (org,)).strip()}
+        q = {"query": (QUERY % (org,)).strip()}
         r = requests.post(url, headers=headers, data=json.dumps(q))
         resp = flatten_response(r.json())
 
