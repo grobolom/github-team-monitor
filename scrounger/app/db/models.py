@@ -16,3 +16,7 @@ class Team(db.Model):
 
     name = db.Column(db.Text, primary_key=True)
     members = db.Column(db.JSON, nullable=False)
+
+    def __init__(self, name, members):
+        self.name = name
+        self.members = members

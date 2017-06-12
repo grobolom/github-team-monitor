@@ -48,8 +48,8 @@ class BaseConfig(object):
 
     # postgres db settings
     DB_NAME    = os.environ.get('DB_NAME', 'postgres')
-    DB_USER    = os.environ.get('DB_USER', 'admin')
-    DB_PASS    = os.environ.get('DB_PASS', 'admin')
+    DB_USER    = os.environ.get('DB_USER', 'postgres')
+    DB_PASS    = os.environ.get('DB_PASS', '')
     DB_SERVICE = os.environ.get('DB_SERVICE', 'postgres')
     DB_PORT    = os.environ.get('DB_PORT', '5432')
     SQLALCHEMY_DATABASE_URI = 'postgresql://{0}:{1}@{2}:{3}/{4}'.format(

@@ -6,7 +6,6 @@ from time import strptime
 from datetime import datetime, timedelta
 
 import requests
-from bson.json_util import dumps
 from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_apscheduler import APScheduler
@@ -34,23 +33,21 @@ def issues():
 @app.route('/teams', methods=['GET', 'POST'])
 def teams():
     if request.method == 'GET':
-        _items = db.gitdb.teams.find()
-        items = [item for item in _items]
+        items = [{'name': item.name, 'members': item.members} for item in Team.query.all()]
 
         headers = {
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "*",
         }
 
-        return dumps(items), 200, headers
+        return json.dumps(items), 200, headers
     else:
         try:
             js = request.get_json()
-            team = {
-                'name': js['name'],
-                'members': js['members']
-            }
-            db.gitdb.teams.update_one({'name': js['name']}, {"$set": team}, True)
+            team = Team(js['name'], js['members'])
+
+            db.session.merge(team)
+            db.session.commit()
         except Exception as e:
             return str(e)
     return '?', 200
