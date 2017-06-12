@@ -25,15 +25,18 @@ from db.models import *
 
 @app.route('/issues')
 def issues():
-    items = [item.data for item in PullRequest.query.all()]
+    items = get_issues()
 
     return json.dumps(items), 200, {'Content-Type': 'application/json'}
+
+def get_issues():
+    return [item.data for item in PullRequest.query.all()]
 
 
 @app.route('/teams', methods=['GET', 'POST'])
 def teams():
     if request.method == 'GET':
-        items = [{'name': item.name, 'members': item.members} for item in Team.query.all()]
+        items = get_teams()
 
         headers = {
             "Content-Type": "application/json",
@@ -52,15 +55,14 @@ def teams():
             return str(e)
     return '?', 200
 
+def get_teams():
+    items = [{'name': item.name, 'members': item.members} for item in Team.query.all()]
+    return items
+
 
 @app.route('/teams/<name>/issues')
 def teams_issues(name):
-    team = Team.query.filter_by(name=name).first()
-    members = team.members
-
-    prs = [item.data for item in db.session.query(PullRequest).filter(
-        PullRequest.author.in_(members)
-    )]
+    prs = get_team_issues(name)
 
     headers = {
         "Content-Type": "application/json",
@@ -68,6 +70,15 @@ def teams_issues(name):
     }
 
     return json.dumps(prs), 200, headers
+
+def get_team_issues(name):
+    team = Team.query.filter_by(name=name).first()
+    members = team.members
+
+    prs = [item.data for item in db.session.query(PullRequest).filter(
+        PullRequest.author.in_(members)
+    )]
+    return prs
 
 
 @app.route('/update')
