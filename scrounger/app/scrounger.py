@@ -12,6 +12,7 @@ from flask_apscheduler import APScheduler
 
 from graphql import QUERY, flatten_response
 from settings import BaseConfig
+from helpers import get_issues, get_teams, get_team_issues, get_new_prs, save_new_prs, save_team
 
 dictConfig(BaseConfig.LOGGING)
 logger = getLogger('main')
@@ -29,9 +30,6 @@ def issues():
 
     return json.dumps(items), 200, {'Content-Type': 'application/json'}
 
-def get_issues():
-    return [item.data for item in PullRequest.query.all()]
-
 
 @app.route('/teams', methods=['GET', 'POST'])
 def teams():
@@ -46,18 +44,9 @@ def teams():
         return json.dumps(items), 200, headers
     else:
         try:
-            js = request.get_json()
-            team = Team(js['name'], js['members'])
-
-            db.session.merge(team)
-            db.session.commit()
-        except Exception as e:
-            return str(e)
-    return '?', 200
-
-def get_teams():
-    items = [{'name': item.name, 'members': item.members} for item in Team.query.all()]
-    return items
+            save_team(request.get_json())
+        except Exception:
+            return 'failed', 400
 
 
 @app.route('/teams/<name>/issues')
@@ -70,15 +59,6 @@ def teams_issues(name):
     }
 
     return json.dumps(prs), 200, headers
-
-def get_team_issues(name):
-    team = Team.query.filter_by(name=name).first()
-    members = team.members
-
-    prs = [item.data for item in db.session.query(PullRequest).filter(
-        PullRequest.author.in_(members)
-    )]
-    return prs
 
 
 @app.route('/update')
@@ -96,29 +76,6 @@ def update():
     save_new_prs(new_prs)
 
     return 'success'
-
-def save_new_prs(new_prs):
-    # filter out PRs that are greater than 90 days old
-    for pr in new_prs.values():
-        issue_time = pr['updated_at']
-        parsed_time = datetime(*(strptime(issue_time, BaseConfig.TIMESTAMP_FORMAT))[:6])
-        if datetime.now() - parsed_time < timedelta(days=90):
-            new_pr = PullRequest(pr['user']['login'], pr)
-            db.session.add(new_pr)
-
-    db.session.commit()
-
-def get_new_prs(url, headers):
-    new_prs = {}
-    for org in BaseConfig.ORGS_TO_TRACK:
-        # using a % string interpolation here because our query has {} in it already
-        q = {"query": (QUERY % (org,)).strip()}
-        r = requests.post(url, headers=headers, data=json.dumps(q))
-        resp = flatten_response(r.json())
-
-        logger.debug('found {} issues for {}'.format(len(resp), org))
-        new_prs.update(resp)
-    return new_prs
 
 
 @app.route('/healthcheck')
