@@ -10,18 +10,17 @@ from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_apscheduler import APScheduler
 
+from extensions import db
 from graphql import QUERY, flatten_response
 from settings import BaseConfig
-from helpers import get_issues, get_teams, get_team_issues, get_new_prs, save_new_prs, save_team
+from db.helpers import get_issues, get_teams, get_team_issues, get_new_prs, save_new_prs, save_team, drop_existing_prs
 
 dictConfig(BaseConfig.LOGGING)
 logger = getLogger('main')
 
 app = Flask(__name__)
 app.config.from_object(BaseConfig)
-db = SQLAlchemy(app)
-
-from db.models import *
+db.init_app(app)
 
 
 @app.route('/issues')
@@ -63,16 +62,13 @@ def teams_issues(name):
 
 @app.route('/update')
 def update():
-
     url = 'https://api.github.com/graphql'
-    headers = {'Authorization': 'Bearer {}'.format(BaseConfig.TOKEN)}
+    headers = {
+        'Authorization': 'Bearer {}'.format(BaseConfig.TOKEN)
+    }
 
     new_prs = get_new_prs(url, headers)
-
-    logger.debug('dropping all issues and updating')
-    deleted = PullRequest.query.delete()
-    logger.debug('deleted {} pull requests'.format(deleted))
-
+    drop_existing_prs()
     save_new_prs(new_prs)
 
     return 'success'

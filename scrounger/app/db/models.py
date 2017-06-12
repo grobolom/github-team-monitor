@@ -1,4 +1,4 @@
-from scrounger import db
+from extensions import db
 
 
 class PullRequest(db.Model):

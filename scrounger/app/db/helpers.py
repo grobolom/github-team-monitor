@@ -1,6 +1,6 @@
 from db.models import PullRequest, Team
 from settings import BaseConfig
-from scrounger import db
+from extensions import db
 
 
 def get_issues():
@@ -8,8 +8,7 @@ def get_issues():
 
 
 def get_teams():
-    items = [{'name': item.name, 'members': item.members} for item in Team.query.all()]
-    return items
+    return [{'name': item.name, 'members': item.members} for item in Team.query.all()]
 
 
 def get_team_issues(name):
@@ -55,3 +54,10 @@ def save_team(js):
         db.session.commit()
     except Exception as e:
         raise Exception('failed to save team')
+
+
+def drop_existing_prs():
+    logger.debug('dropping all issues and updating')
+    deleted = PullRequest.query.delete()
+    logger.debug('deleted {} pull requests'.format(deleted))
+    return deleted
