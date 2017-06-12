@@ -87,22 +87,17 @@ def update():
     url = 'https://api.github.com/graphql'
     headers = {'Authorization': 'Bearer {}'.format(BaseConfig.TOKEN)}
 
-    new_prs = {}
-    for org in BaseConfig.ORGS_TO_TRACK:
-        logger.debug('finding all issues in {}'.format(org))
-
-        # using a % string interpolation here because our query has {} in it already
-        q = {"query": (QUERY % (org,)).strip()}
-        r = requests.post(url, headers=headers, data=json.dumps(q))
-        resp = flatten_response(r.json())
-
-        logger.debug('found {} issues for {}'.format(len(resp), org))
-        new_prs.update(resp)
+    new_prs = get_new_prs(url, headers)
 
     logger.debug('dropping all issues and updating')
     deleted = PullRequest.query.delete()
     logger.debug('deleted {} pull requests'.format(deleted))
 
+    save_new_prs(new_prs)
+
+    return 'success'
+
+def save_new_prs(new_prs):
     # filter out PRs that are greater than 90 days old
     for pr in new_prs.values():
         issue_time = pr['updated_at']
@@ -113,7 +108,17 @@ def update():
 
     db.session.commit()
 
-    return 'success'
+def get_new_prs(url, headers):
+    new_prs = {}
+    for org in BaseConfig.ORGS_TO_TRACK:
+        # using a % string interpolation here because our query has {} in it already
+        q = {"query": (QUERY % (org,)).strip()}
+        r = requests.post(url, headers=headers, data=json.dumps(q))
+        resp = flatten_response(r.json())
+
+        logger.debug('found {} issues for {}'.format(len(resp), org))
+        new_prs.update(resp)
+    return new_prs
 
 
 @app.route('/healthcheck')
