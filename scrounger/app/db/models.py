@@ -5,9 +5,11 @@ class PullRequest(db.Model):
     __tablename__ = 'pull_requests'
 
     id = db.Column(db.Integer, primary_key=True)
+    author = db.Column(db.Text, nullable=False)
     data = db.Column(db.JSON, nullable=False)
 
-    def __init__(self, data):
+    def __init__(self, author, data):
+        self.author = author
         self.data = data
 
 

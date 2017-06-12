@@ -25,9 +25,9 @@ from db.models import *
 
 @app.route('/issues')
 def issues():
-    items = [item for item in PullRequest.query.all()]
+    items = [item.data for item in PullRequest.query.all()]
 
-    return dumps(items), 200, {'Content-Type': 'application/json'}
+    return json.dumps(items), 200, {'Content-Type': 'application/json'}
 
 
 @app.route('/teams', methods=['GET', 'POST'])
@@ -55,17 +55,19 @@ def teams():
 
 @app.route('/teams/<name>/issues')
 def teams_issues(name):
-    _team = db.gitdb.teams.find_one({'name': name})
-    _items = db.gitdb.everything.find({'user.login': {'$in': _team['members']}})
+    team = Team.query.filter_by(name=name).first()
+    members = team.members
 
-    items = [item for item in _items]
+    prs = [item.data for item in db.session.query(PullRequest).filter(
+        PullRequest.author.in_(members)
+    )]
 
     headers = {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
     }
 
-    return dumps(items), 200, headers
+    return json.dumps(prs), 200, headers
 
 
 @app.route('/update')
@@ -95,7 +97,7 @@ def update():
         issue_time = pr['updated_at']
         parsed_time = datetime(*(strptime(issue_time, BaseConfig.TIMESTAMP_FORMAT))[:6])
         if datetime.now() - parsed_time < timedelta(days=90):
-            new_pr = PullRequest(json.loads(pr))
+            new_pr = PullRequest(pr['user']['login'], pr)
             db.session.add(new_pr)
 
     db.session.commit()
