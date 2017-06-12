@@ -58,8 +58,9 @@ def flatten_response(response):
                 'labels': [{'name': label['name']} for label in pr['labels']['nodes']],
                 'user': {
                     'login': pr['author']['login'],
+                    'avatar_url': pr['author']['avatarUrl']
                 },
-                'assignees': [{'login': assignee['login']} for assignee in pr['assignees']['nodes']]
+                'assignees': [{'login': assignee['login'], 'avatar_url': assignee['avatarUrl']} for assignee in pr['assignees']['nodes']]
             }
 
     return prs
