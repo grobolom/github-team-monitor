@@ -6,6 +6,7 @@ For now, startup is a bit wonky.
 
 ```
 docker-compose up -d scrounger
+docker exec -it scrounger python app/db/create_db.py
 cd overwatch
 npm install
 npm start
