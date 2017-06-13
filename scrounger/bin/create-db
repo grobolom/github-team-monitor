@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+set -ev
+
+python app/db/create_db.py

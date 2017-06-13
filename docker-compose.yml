@@ -2,14 +2,14 @@ scrounger:
   container_name: scrounger
   restart: always
   build: scrounger
-  command: python -u app/scrounger.py
   ports:
-    - "5000:5000"
+    - 5000:5000
   volumes:
     - ./scrounger:/app
   links:
     - postgres:postgres
   environment:
+    - VIRTUAL_HOST=scrounger.docker
     - RUN_SCHEDULER=False
 
 data:
@@ -26,4 +26,12 @@ postgres:
   volumes_from:
     - data
   ports:
-    - "5432:5432"
+    - 5432:5432
+
+overwatch:
+  container_name: overwatch
+  build: overwatch
+  ports:
+    - 3000
+  environment:
+    - VIRTUAL_HOST=overwatch.docker

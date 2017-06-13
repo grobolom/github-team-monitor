@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+set -ev
+
+BIN_ROOT=$(dirname $0)
+
+# start the app
+python -u app/scrounger.py
+
+# then run the db re-create (after starting the app)
+$BIN_ROOT/create-db
