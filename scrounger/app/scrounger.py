@@ -69,9 +69,9 @@ def update():
 
     new_prs = get_new_prs(url, headers)
     drop_existing_prs()
-    save_new_prs(new_prs)
+    total = save_new_prs(new_prs)
 
-    return 'success'
+    return 'updated {} prs'.format(total) , 200
 
 
 @app.route('/healthcheck')

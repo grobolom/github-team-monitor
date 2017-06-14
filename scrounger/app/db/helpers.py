@@ -32,6 +32,8 @@ def save_new_prs(new_prs):
 
     db.session.commit()
 
+    return len(new_prs.values())
+
 
 def get_new_prs(url, headers):
     new_prs = {}
