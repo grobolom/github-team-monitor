@@ -2,16 +2,12 @@ import json
 import os
 from logging import getLogger
 from logging.config import dictConfig
-from time import strptime
-from datetime import datetime, timedelta
 
-import requests
 from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_apscheduler import APScheduler
 
 from extensions import db
-from graphql import QUERY, flatten_response
 from settings import BaseConfig
 from db.helpers import get_issues, get_teams, get_team_issues, get_new_prs, save_new_prs, save_team, drop_existing_prs
 

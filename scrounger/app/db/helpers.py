@@ -1,7 +1,16 @@
-from db.models import PullRequest, Team
-from settings import BaseConfig
-from extensions import db
+import json
+from datetime import datetime, timedelta
+from logging import getLogger
+from time import strptime
 
+import requests
+
+from db.models import PullRequest, Team
+from extensions import db
+from graphql import QUERY, flatten_response
+from settings import BaseConfig
+
+logger = getLogger('main')
 
 def get_issues():
     return [item.data for item in PullRequest.query.all()]
