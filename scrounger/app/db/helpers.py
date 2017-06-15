@@ -49,13 +49,12 @@ def get_new_prs(url, headers):
 
 
 def save_team(js):
-    try:
-        team = Team(js['name'], js['members'])
+    team = Team(js['name'], js['members'])
 
-        db.session.merge(team)
-        db.session.commit()
-    except Exception as e:
-        raise Exception('failed to save team')
+    db.session.merge(team)
+    db.session.commit()
+
+    return 'success'
 
 
 def drop_existing_prs():

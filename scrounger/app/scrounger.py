@@ -43,9 +43,9 @@ def teams():
         return json.dumps(items), 200, headers
     else:
         try:
-            save_team(request.get_json())
-        except Exception:
-            return 'failed', 400
+            return save_team(request.get_json()), 200
+        except Exception as e:
+            return 'failed' + str(e), 400
 
 
 @app.route('/teams/<name>/issues')
