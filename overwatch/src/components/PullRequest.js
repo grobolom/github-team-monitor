@@ -32,8 +32,8 @@ class PullRequest extends Component {
           { this.props.assignees.map((assignee, i) =>
             <UserLine
               key={ i }
-              name={ assignee.userName }
-              avatar={ assignee.avatar }
+              name={ assignee.login }
+              avatar={ assignee.avatar_url }
             />
           )}
         </div>
