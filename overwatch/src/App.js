@@ -1,14 +1,16 @@
-import PRList from './components/PRList';
-import Selector from './containers/Selector';
 import { connect } from 'react-redux'
-import React, { Component } from 'react';
+import React, { Component } from 'react'
+import { Router, Route } from 'react-router'
+
+import PRList from './components/PRList';
+import TeamSelector from './containers/TeamSelector';
 
 class App extends Component {
   render() {
     return (
       <div>
         <h3>Github Team PR Status Monitor</h3>
-        <Selector teams={this.props.teams} />
+        <TeamSelector teams={this.props.teams} />
         <div>
           <PRList pullRequests={this.props.forReview.prs} category='Review' />
           <PRList pullRequests={this.props.completed.prs} category='Completed' />

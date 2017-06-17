@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { fetchIssues } from '../actions'
-import TeamSelector from '../components/TeamSelector'
+import Selector from '../components/Selector'
 
-class Selector extends Component {
+class TeamSelector extends Component {
   constructor(props) {
     super(props)
     this.handleChange = this.handleChange.bind(this)
@@ -15,7 +15,7 @@ class Selector extends Component {
 
   render() {
     return (
-      <TeamSelector
+      <Selector
         onChange={ this.handleChange }
         teams={ this.props.teams }
       />
@@ -23,7 +23,7 @@ class Selector extends Component {
   }
 }
 
-Selector.propTypes = {
+TeamSelector.propTypes = {
   dispatch: PropTypes.func.isRequired,
   teams: PropTypes.array.isRequired,
 }
@@ -32,4 +32,4 @@ function mapStateToProps(state) {
   return {}
 }
 
-export default connect(mapStateToProps)(Selector)
+export default connect(mapStateToProps)(TeamSelector)
