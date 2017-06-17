@@ -3,33 +3,14 @@ import { getStatus } from '../helpers/labels'
 import PullRequest from './PullRequest'
 
 class PRList extends Component {
-  crStatus(pr) {
-    return getStatus('cr', pr.labels);
-  }
+  crStatus = (pr) => getStatus('cr', pr.labels)
+  qaStatus = (pr) => getStatus('qa', pr.labels)
+  frStatus = (pr) => getStatus('fr', pr.labels)
+  mergeStatus = (pr) => getStatus('merge', pr.labels)
+  commentsStatus = (pr) => getStatus('unaddressed', pr.labels)
 
-  qaStatus(pr) {
-    return getStatus('qa', pr.labels);
-  }
-
-  frStatus(pr) {
-    return getStatus('fr', pr.labels);
-  }
-
-  mergeStatus(pr) {
-    return getStatus('merge', pr.labels);
-  }
-
-  commentsStatus(pr) {
-    return getStatus('unaddressed', pr.labels);
-  }
-
-  repoName(pr) {
-    const repo = pr.repo_name
-    if (repo === 'mediaplatform-edit-interface') {
-      return 'edit'
-    }
-    return repo
-  }
+  repoName = (pr) =>
+    pr.repo_name === 'mediaplatform-edit-interface' ? 'edit' : pr.repo_name
 
   prTitle(pr) {
     let title = pr.title
@@ -39,42 +20,6 @@ class PRList extends Component {
     }
     const limit = 65
     return title.length > limit ? title.substring(0, limit - 3) + '...' : title
-  }
-
-  prNumber(pr) {
-    const matches = pr.title.match(/([A-Za-z]{3})[ -]?([\d]{3,4})([ :\]]+)(.+)/)
-    if (matches) {
-      return matches[1].toUpperCase() + '-' + matches[2]
-    }
-    return ''
-  }
-
-  sortPrs(prs) {
-    return prs.sort(function(a, b) {
-      if (a.title.toUpperCase() < b.title.toUpperCase()) {
-        return -1
-      }
-
-      if (a.title.toUpperCase() > b.title.toUpperCase()) {
-        return 1
-      }
-
-      return 0
-    })
-  }
-
-  firstAssignee(pr) {
-    if (pr.assignees[0]) {
-      return pr.assignees[0].login
-    }
-    return ''
-  }
-
-  secondAssignee(pr) {
-    if (pr.assignees[1]) {
-      return pr.assignees[1].login
-    }
-    return ''
   }
 
   render() {
