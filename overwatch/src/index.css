@@ -77,7 +77,7 @@ ul {
   line-height: 20px;
 }
 
-.label {
+.pull-request .status div {
     display: block;
     padding: 3px 4px;
     margin-right: 4px;
@@ -90,41 +90,41 @@ ul {
     background-color: #777;
 }
 
-.label.hidden {
+.pull-request .status .hidden {
   display: none;
 }
 
-.label.ready {
+.pull-request .status .ready {
   background-color: #ffbaba;
   color: #333;
 }
 
-.label.in-progress {
+.pull-request .status .in-progress {
   background-color: #fbca04;
   color: #333;
 }
 
-.label.do-not-merge {
+.pull-request .status .do-not-merge {
   background-color: #b60205;
   color: #fff;
 }
 
-.label.pass {
+.pull-request .status .pass {
   background-color: #DFF2BF;
   color: #333;
 }
 
-.label.merge-status.ready {
+.pull-request .merge-status .ready {
   background-color: #009800;
   color: #FFF;
 }
 
-.label.merge-status.dependency {
+.pull-request .merge-status .dependency {
   background-color: #5319e7;
   color: #FFF;
 }
 
-.label.comments-status.comments {
+.pull-request .comments-status .comments {
   background-color: #eb6420;
   color: #FFF;
 }
