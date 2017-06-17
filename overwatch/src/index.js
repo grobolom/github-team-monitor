@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
 
-import App from './App';
+import Root from './containers/Root';
 import Store from './store';
 
 import './index.css';
@@ -23,8 +22,6 @@ fetch('//localhost:5000/teams/VID/issues')
   .then(json => StoreInstance.dispatch({ type: 'receivePRs', prs: json}))
 
 ReactDOM.render(
-  <Provider store={StoreInstance}>
-    <App />
-  </Provider>,
+  <Root store={StoreInstance} />,
   document.getElementById('root')
 );

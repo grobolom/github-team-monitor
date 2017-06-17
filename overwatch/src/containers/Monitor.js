@@ -1,9 +1,10 @@
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
 
-import Monitor from './container/Monitor.js'
+import PRList from '../components/PRList';
+import TeamSelector from './TeamSelector';
 
-class App extends Component {
+class Monitor extends Component {
   render() {
     return (
       <div>
@@ -37,4 +38,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps)(Monitor);
