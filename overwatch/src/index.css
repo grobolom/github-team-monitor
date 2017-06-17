@@ -148,23 +148,11 @@ ul {
   box-shadow: 0 3px 12px rgba(27,31,35,0.15);
 }
 
-.pull-request .extras > div {
-}
-
-.pull-request .extras .author {
+.pull-request .extras .user:first-child {
   color: #586069;
 }
 
-.pull-request .extras .assignee {
-}
-
-.pull-request .extras .author span {
-  position: relative;
-  top: -5px;
-  left: 5px;
-}
-
-.pull-request .extras .assignee span {
+.pull-request .extras .user span {
   position: relative;
   top: -5px;
   left: 5px;
