@@ -1,45 +1,6 @@
 import React, { PropTypes, Component } from 'react'
-
-const statuses = {
-  cr: {
-    'ready for review': 'ready',
-    'needs peer review': 'ready',
-    'in peer review': 'in-progress',
-    'peer review': 'in-progress',
-    'code review pass': 'pass',
-  },
-  qa: {
-    'ready for qa': 'ready',
-    'needs qa': 'ready',
-    'in testing by qa': 'in-progress',
-    'testing complete': 'pass',
-  },
-  fr: {
-    'ready for feature review': 'ready',
-    'needs feature review': 'ready',
-    'in feature review': 'in-progress',
-    'feature review passed': 'pass',
-  },
-  merge: {
-    'requires unmerged dependency in other repo': 'dependency',
-    'ready to merge': 'ready',
-  },
-  unaddressed: {
-    'has unaddressed comments': 'comments',
-  },
-}
-
-function getStatus(type, labels) {
-  const names = labels.map(function(label) {
-    return label.name.toLowerCase();
-  })
-
-  const found = Object.keys(statuses[type]).find(function(label) {
-    return names.includes(label);
-  });
-
-  return found ? statuses[type][found] : 'hidden';
-}
+import { getStatus } from '../helpers/labels'
+import PullRequest from './PullRequest'
 
 class PRList extends Component {
   crStatus(pr) {
@@ -131,39 +92,20 @@ class PRList extends Component {
             <div className='merge-status status'>Merge</div>
           </li>
           { (this.props.pullRequests).map((pr, i) =>
-            <li className='pull-request' key={i}>
-              <div className='repo-name'>{ this.repoName(pr) }</div>
-              <div className='pr-name'>
-                <a href={ pr.html_url }>{ this.prTitle(pr) }</a>
-              </div>
-              <div className='cr-status status { this.crStatus(pr) }'>
-                <div className={ this.crStatus(pr) + ' label'} > { this.crStatus(pr) }</div>
-              </div>
-              <div className='qa-status status { this.qaStatus(pr) }'>
-                <div className={ this.qaStatus(pr) + ' label'} > { this.qaStatus(pr) }</div>
-              </div>
-              <div className='fr-status status { this.frStatus(pr) }'>
-                <div className={ this.frStatus(pr) + ' label'} > { this.frStatus(pr) }</div>
-              </div>
-              <div className='comments-status status { this.commentsStatus(pr) }'>
-                <div className={ this.commentsStatus(pr) + ' comments-status label'} > { this.commentsStatus(pr) }</div>
-              </div>
-              <div className='merge-status status { this.mergeStatus(pr) }'>
-                <div className={ this.mergeStatus(pr) + ' merge-status label'} > { this.mergeStatus(pr) }</div>
-              </div>
-              <div className='extras'>
-                <div className='author'>
-                  <img height='20' width='20' src={ pr.user.avatar_url } />
-                  <span>{ pr.user.login }</span>
-                </div>
-                { pr.assignees.map((assignee, i) =>
-                  <div className='assignee' key={assignee.login}>
-                    <img height='20' width='20' src={ assignee.avatar_url } />
-                    <span>{ assignee.login }</span>
-                  </div>
-                )}
-              </div>
-            </li>
+            <PullRequest
+              key={i}
+              repoName={ this.repoName(pr) }
+              prUrl={ pr.html_url }
+              prTitle={ this.prTitle(pr) }
+              crStatus={ this.crStatus(pr) }
+              qaStatus={ this.qaStatus(pr) }
+              frStatus={ this.frStatus(pr) }
+              commentsStatus={ this.commentsStatus(pr) }
+              mergeStatus={ this.mergeStatus(pr) }
+              author={ pr.user.login }
+              authorAvatar={ pr.user.avatar_url }
+              assignees={ pr.assignees }
+            />
           )}
         </ul>
       </div>
