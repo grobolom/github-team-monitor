@@ -21,7 +21,7 @@ class App extends Component {
 
 function mapStateToProps(state) {
   return {
-    teams: state.teams.map(function(team) { return team.name; }),
+    teams: state.teams,
     inDev: {
       prs: state.prs.filter(function(pr) { return pr.labels.length === 1 && pr.labels[0].name.toLowerCase() === 'in development'; }),
     },

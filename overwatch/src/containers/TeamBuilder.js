@@ -5,12 +5,23 @@ import TeamSelector from './TeamSelector';
 import TeamList from '../components/TeamList';
 
 class TeamBuilder extends Component {
+  onKeyDown = (e) => {
+    if (e.keyCode === 13) {
+      this.props.dispatch({
+        "key": e.keyCode,
+        "type": "someaction",
+      })
+    }
+  }
+
   render() {
     return (
       <div>
         <h3>TEAMS</h3>
-        <TeamSelector teams={ this.props.teams } />
-        <TeamList members={ this.props.members } />
+        <TeamSelector teams={ this.props.names } />
+        { this.props.teams.map(team =>
+          <TeamList members={ team.members } name={ team.name } key={ team.name } />
+        )}
       </div>
     );
   }
@@ -18,8 +29,8 @@ class TeamBuilder extends Component {
 
 function mapStateToProps(state) {
   return {
-    teams: state.teams.map((team) => team.name ),
-    members: state.teams[0] ? state.teams[0].members : [],
+    teams: state.teams,
+    names: state.teams.map((team) => team.name),
   }
 }
 
