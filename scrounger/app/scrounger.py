@@ -3,7 +3,7 @@ import os
 from logging import getLogger
 from logging.config import dictConfig
 
-from flask import Flask, request
+from flask import Flask, request, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_apscheduler import APScheduler
 
@@ -11,7 +11,7 @@ from extensions import db, bcrypt
 from settings import BaseConfig
 from db.helpers import (
     get_issues, get_teams, get_team_issues, get_new_prs, save_new_prs,
-    save_team, drop_existing_prs, register_user
+    save_team, drop_existing_prs, register_user, check_user_login,
 )
 
 dictConfig(BaseConfig.LOGGING)
@@ -85,6 +85,16 @@ def register():
     result = register_user(data['email'], data['password'])
     return json.dumps({'message': result}), 200
 
+
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.json
+
+    result = check_user_login(data['email'], data['password'])
+    if result:
+        session['logged_in'] = True
+
+    return json.dumps({'message': result}), 200
 
 if __name__ == "__main__":
     if BaseConfig.RUN_SCHEDULER:

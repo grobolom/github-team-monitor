@@ -85,3 +85,9 @@ def register_user(email, password):
     db.session.close()
 
     return status
+
+
+def check_user_login(email, password):
+    user = User.query.filter_by(email=email).first()
+
+    return user and bcrypt.check_password_hash(user.password, password)
