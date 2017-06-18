@@ -79,14 +79,11 @@ def healthcheck():
     return 'success', 200
 
 
-@app.route('/users', methods=['GET', 'POST'])
-def users():
-    if request.method == 'POST':
-        data = request.json
-        result = register_user(data['email'], data['password'])
-        return json.dumps({'message': result}), 200
-
-    return json.dumps({'message': 'wat'}), 200
+@app.route('/register', methods=['POST'])
+def register():
+    data = request.json
+    result = register_user(data['email'], data['password'])
+    return json.dumps({'message': result}), 200
 
 
 if __name__ == "__main__":
