@@ -19,9 +19,11 @@ class TeamBuilder extends Component {
     return (
       <div>
         <NavBar />
-        <h3>TEAMS</h3>
-        <TeamSelector teams={ this.props.names } />
-        <div class='team-lists'>
+        <header>
+          <h3>Teams</h3>
+          <TeamSelector teams={ this.props.names } />
+        </header>
+        <div className='team-lists'>
           { this.props.teams.map(team =>
             <TeamList members={ team.members } name={ team.name } key={ team.name } />
           )}

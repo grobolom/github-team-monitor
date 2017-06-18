@@ -25,7 +25,7 @@ class PRList extends Component {
   render() {
     return (
       <div>
-        <h3>{this.props.category}</h3>
+        <h3 className="category">{this.props.category}</h3>
         <ul className='pull-requests'>
           <li className='pull-request header'>
             <div className='repo-name'>Repo</div>

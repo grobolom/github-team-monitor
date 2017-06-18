@@ -10,8 +10,10 @@ class Monitor extends Component {
     return (
       <div>
         <NavBar />
-        <h3>Github Team PR Status Monitor</h3>
-        <TeamSelector teams={this.props.teams} />
+        <header>
+          <h3>Status Monitor</h3>
+          <TeamSelector teams={this.props.teams} />
+        </header>
         <div>
           <PRList pullRequests={this.props.forReview.prs} category='Review' />
           <PRList pullRequests={this.props.completed.prs} category='Completed' />

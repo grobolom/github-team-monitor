@@ -18,6 +18,10 @@
   margin-top: 20px;
 }
 
+.category {
+  padding-left: 20px;
+}
+
 .pull-request {
   display: block;
   padding: 0.5rem 1rem;

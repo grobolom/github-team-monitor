@@ -5,7 +5,7 @@ class NavBar extends Component {
   render() {
     return (
       <div className='nav-bar'>
-        <Link to='/'  activeStyle={{
+        <Link to='/monitor'  activeStyle={{
           textDecoration: 'none',
           color: 'black'
         }}>Monitor</Link>
