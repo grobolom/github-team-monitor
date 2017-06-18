@@ -96,6 +96,12 @@ def login():
 
     return json.dumps({'message': result}), 200
 
+
+@app.route('/logout')
+def logout():
+    session.pop('logged_in', None)
+    return json.dumps({'message': 'success'}), 200
+
 if __name__ == "__main__":
     if BaseConfig.RUN_SCHEDULER:
         # this restricts the scheduler to running in the parent process
