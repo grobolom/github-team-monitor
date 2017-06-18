@@ -34,7 +34,7 @@ class User(db.Model):
 
     def __init__(self, email, password, admin=False):
         self.email = email
-        self.password = bcrypt.generate_password_hash(password)
+        self.password = bcrypt.generate_password_hash(password).decode('utf-8')
         self.admin = admin
 
     def is_authenticated(self):

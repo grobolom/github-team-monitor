@@ -56,3 +56,7 @@ class BaseConfig(object):
         DB_USER, DB_PASS, DB_SERVICE, DB_PORT, DB_NAME
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    # others
+
+    SECRET_KEY = 'some-big-secret-key'
