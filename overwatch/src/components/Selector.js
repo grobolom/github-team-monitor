@@ -17,9 +17,9 @@ class Selector extends Component {
   }
 }
 
-TeamSelector.propTypes = {
+Selector.propTypes = {
   teams: PropTypes.array.isRequired,
   onChange: PropTypes.func.isRequired
 }
 
-export default TeamSelector;
+export default Selector;
