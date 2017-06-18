@@ -1,0 +1,15 @@
+.team-list {
+  max-width: 300px;
+  padding: 20px;
+  display: block;
+}
+
+.team-list header {
+  line-height: 30px;
+  font-weight: 300;
+  border-bottom: 1px solid #ccc;
+}
+
+.team-list li {
+  line-height: 20px;
+}
