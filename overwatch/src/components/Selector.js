@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-class TeamSelector extends Component {
+class Selector extends Component {
   render() {
     return (
       <div className='select'>

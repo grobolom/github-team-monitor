@@ -7,7 +7,6 @@ import Store from './store';
 import './index.css';
 import './polyfills.js';
 
-
 const StoreInstance = Store({
   prs: [],
   teams: [],

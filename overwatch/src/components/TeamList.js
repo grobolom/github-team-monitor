@@ -3,11 +3,11 @@ import React, { Component, PropTypes } from 'react';
 class TeamList extends Component {
   render() {
     return (
-      <div className='teamList'>
+      <ul className='teamList'>
         { this.props.members.map(member =>
-          <div key={member}>{ member }</div>
+          <li key={member}>{ member }</li>
         )}
-      </div>
+      </ul>
     )
   }
 }
