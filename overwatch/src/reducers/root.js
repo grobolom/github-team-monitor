@@ -1,31 +1,12 @@
 import { combineReducers } from 'redux';
+import auth from './auth'
+import prs from './prs'
+import teams from './teams'
 
 const rootReducer = combineReducers({
-  prs: function(state, action) {
-    if (state == null) {
-      state = [];
-    }
-
-    if (action.type === 'receivePRs') {
-      state = action.prs;
-    }
-
-    return state;
-  },
-  teams: function(state, action) {
-    if (state == null) {
-      state = [];
-    }
-
-    if (action.type === 'receiveTeams') {
-      state = action.teams;
-    }
-
-    return state;
-  },
-  isAuthenticated: (state, action) => {
-    return false
-  }
+  auth,
+  prs,
+  teams
 });
 
 export default rootReducer;
