@@ -5,7 +5,7 @@ from time import strptime
 
 import requests
 
-from db.models import PullRequest, Team
+from db.models import PullRequest, Team, User
 from extensions import db
 from graphql import QUERY, flatten_response
 from settings import BaseConfig
@@ -71,3 +71,16 @@ def drop_existing_prs():
     deleted = PullRequest.query.delete()
     logger.debug('deleted {} pull requests'.format(deleted))
     return deleted
+
+def register_user(email, password):
+    user = User(email='email', password='password')
+
+    try:
+        db.session.add(user)
+        db.session.commit()
+        status = 'success'
+    except:
+        status = 'this user is already registered'
+    db.session.close()
+
+    return status

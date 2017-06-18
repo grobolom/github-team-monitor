@@ -7,9 +7,12 @@ from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_apscheduler import APScheduler
 
-from extensions import db
+from extensions import db, bcrypt
 from settings import BaseConfig
-from db.helpers import get_issues, get_teams, get_team_issues, get_new_prs, save_new_prs, save_team, drop_existing_prs
+from db.helpers import (
+    get_issues, get_teams, get_team_issues, get_new_prs, save_new_prs,
+    save_team, drop_existing_prs, register_user
+)
 
 dictConfig(BaseConfig.LOGGING)
 logger = getLogger('main')
@@ -17,6 +20,7 @@ logger = getLogger('main')
 app = Flask(__name__)
 app.config.from_object(BaseConfig)
 db.init_app(app)
+bcrypt.init_app(app)
 
 
 @app.route('/issues')
@@ -73,6 +77,16 @@ def update():
 @app.route('/healthcheck')
 def healthcheck():
     return 'success', 200
+
+
+@app.route('/users', methods=['GET', 'POST'])
+def users():
+    if request.method == 'POST':
+        data = request.json
+        result = register_user(data['email'], data['password'])
+        return json.dumps({'message': result}), 200
+
+    return json.dumps({'message': 'wat'}), 200
 
 
 if __name__ == "__main__":
