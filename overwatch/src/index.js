@@ -4,7 +4,9 @@ import ReactDOM from 'react-dom';
 import Root from './containers/Root';
 import Store from './store';
 
-import './index.css';
+import '../public/css/core.css';
+import '../public/css/builder.css';
+import '../public/css/monitor.css';
 import './polyfills.js';
 
 const StoreInstance = Store({

@@ -1,7 +1,15 @@
+.team-lists:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
 .team-list {
-  max-width: 300px;
+  max-width: 200px;
+  height: 280px;
   padding: 20px;
   display: block;
+  float: left;
 }
 
 .team-list header {

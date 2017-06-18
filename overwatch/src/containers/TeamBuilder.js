@@ -19,9 +19,11 @@ class TeamBuilder extends Component {
       <div>
         <h3>TEAMS</h3>
         <TeamSelector teams={ this.props.names } />
-        { this.props.teams.map(team =>
-          <TeamList members={ team.members } name={ team.name } key={ team.name } />
-        )}
+        <div class='team-lists'>
+          { this.props.teams.map(team =>
+            <TeamList members={ team.members } name={ team.name } key={ team.name } />
+          )}
+        </div>
       </div>
     );
   }
