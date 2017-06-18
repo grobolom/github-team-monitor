@@ -2,12 +2,14 @@ import { connect } from 'react-redux'
 import React, { Component } from 'react'
 
 import PRList from '../components/PRList';
+import NavBar from '../components/NavBar';
 import TeamSelector from './TeamSelector';
 
 class Monitor extends Component {
   render() {
     return (
       <div>
+        <NavBar />
         <h3>Github Team PR Status Monitor</h3>
         <TeamSelector teams={this.props.teams} />
         <div>

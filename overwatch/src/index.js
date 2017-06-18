@@ -7,6 +7,7 @@ import Store from './store';
 import '../public/css/core.css';
 import '../public/css/builder.css';
 import '../public/css/monitor.css';
+import '../public/css/navbar.css';
 import './polyfills.js';
 
 const StoreInstance = Store({

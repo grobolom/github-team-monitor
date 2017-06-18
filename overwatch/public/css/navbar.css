@@ -1,0 +1,13 @@
+.nav-bar {
+    line-height: 24px;
+    display: block;
+    background-color: #EEE;
+    margin: 0;
+    padding: 8px 16px;
+}
+
+.nav-bar a {
+    font-weight: 600;
+    padding: 6px 4px;
+    line-height: 30px;
+}

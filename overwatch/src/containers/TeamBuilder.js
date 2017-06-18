@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 
 import TeamSelector from './TeamSelector';
 import TeamList from '../components/TeamList';
+import NavBar from '../components/NavBar';
 
 class TeamBuilder extends Component {
   onKeyDown = (e) => {
@@ -17,6 +18,7 @@ class TeamBuilder extends Component {
   render() {
     return (
       <div>
+        <NavBar />
         <h3>TEAMS</h3>
         <TeamSelector teams={ this.props.names } />
         <div class='team-lists'>

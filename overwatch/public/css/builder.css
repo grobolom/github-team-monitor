@@ -14,8 +14,9 @@
 
 .team-list header {
   line-height: 30px;
-  font-weight: 300;
+  font-weight: 600;
   border-bottom: 1px solid #ccc;
+  margin-bottom: 5px;
 }
 
 .team-list li {
