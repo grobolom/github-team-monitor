@@ -22,6 +22,9 @@ const rootReducer = combineReducers({
     }
 
     return state;
+  },
+  isAuthenticated: (state, action) => {
+    return false
   }
 });
 
