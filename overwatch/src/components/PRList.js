@@ -40,7 +40,7 @@ class PRList extends Component {
             <PullRequest
               key={i}
               repoName={ this.repoName(pr) }
-              prUrl={ pr.html_url }
+              prURL={ pr.html_url }
               prTitle={ this.prTitle(pr) }
               crStatus={ this.crStatus(pr) }
               qaStatus={ this.qaStatus(pr) }
