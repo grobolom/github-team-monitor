@@ -1,8 +1,16 @@
 import axios from 'axios'
 
+export var RECEIVE_ALL = 'RECEIVE_ALL'
 export var RECEIVE_PRS = 'RECEIVE_PRS'
 export var RECEIVE_TEAMS = 'RECEIVE_TEAMS'
 export var LOGIN_SUCCESS = 'LOGIN_SUCCESS'
+
+export function fetchAllIssues() {
+  return dispatch => {
+    return axios.get('//localhost:5000/issues')
+      .then(json => dispatch({ type: RECEIVE_ALL, prs: json.data}))
+  }
+}
 
 export function fetchIssues(team) {
   return dispatch => {
