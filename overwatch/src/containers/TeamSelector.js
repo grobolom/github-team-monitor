@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { fetchIssues } from '../actions'
+import { selectTeam, fetchIssues } from '../actions'
 import Selector from '../components/Selector'
 
 class TeamSelector extends Component {
@@ -10,6 +10,7 @@ class TeamSelector extends Component {
   }
 
   handleChange(value) {
+    this.props.dispatch(selectTeam(value))
     this.props.dispatch(fetchIssues(value))
   }
 

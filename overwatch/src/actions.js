@@ -4,6 +4,7 @@ export var RECEIVE_ALL = 'RECEIVE_ALL'
 export var RECEIVE_PRS = 'RECEIVE_PRS'
 export var RECEIVE_TEAMS = 'RECEIVE_TEAMS'
 export var LOGIN_SUCCESS = 'LOGIN_SUCCESS'
+export var SELECT_TEAM = 'SELECT_TEAM'
 
 export function fetchAllIssues() {
   return dispatch => {
@@ -29,5 +30,12 @@ export function fetchTeams() {
 export function login(data) {
   return dispatch => {
     return axios.post('//localhost:5000/login', data)
+  }
+}
+
+export function selectTeam(name) {
+  return {
+    type: SELECT_TEAM,
+    team: name,
   }
 }

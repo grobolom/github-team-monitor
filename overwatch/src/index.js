@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 import Root from './containers/Root';
 import Store from './store';
-import { fetchTeams, fetchIssues } from './actions'
+import { fetchTeams, fetchIssues, fetchAllIssues } from './actions'
 
 import '../public/css/core.css';
 import '../public/css/builder.css';
@@ -18,6 +18,7 @@ const StoreInstance = Store({
 
 StoreInstance.dispatch(fetchTeams())
 StoreInstance.dispatch(fetchIssues('VID'))
+StoreInstance.dispatch(fetchAllIssues())
 
 ReactDOM.render(
   <Root store={StoreInstance} />,

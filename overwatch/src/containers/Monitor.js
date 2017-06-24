@@ -28,16 +28,18 @@ function mapStateToProps(state) {
   return {
     teams: state.teams.map(function(team) { return team.name; }),
     inDev: {
-      prs: state.prs.filter(function(pr) { return pr.labels.length === 1 && pr.labels[0].name.toLowerCase() === 'in development'; }),
+      prs: state.prs
+        .filter(function(pr) { return pr.labels.length === 1 && pr.labels[0].name.toLowerCase() === 'in development' })
     },
     completed: {
-      prs: state.prs.filter(function(pr) { return pr.labels.map(function(label) { return label.name.toLowerCase(); }).includes('ready to merge'); }),
+      prs: state.prs
+        .filter(function(pr) { return pr.labels.map(function(label) { return label.name.toLowerCase(); }).includes('ready to merge') })
     },
     forReview: {
       prs: state.prs.filter(function(pr) {
         return !(pr.labels.length === 1 && pr.labels[0].name.toLowerCase() === 'in development') &&
-          !(pr.labels.map(function(label) { return label.name.toLowerCase(); }).includes('ready to merge'));
-      }),
+          !(pr.labels.map(function(label) { return label.name.toLowerCase(); }).includes('ready to merge'))
+      })
     }
   }
 }

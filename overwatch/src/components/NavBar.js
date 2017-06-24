@@ -13,6 +13,10 @@ class NavBar extends Component {
           textDecoration: 'none',
           color: 'black'
         }}>Teams</Link>
+        <Link to='/all' activeStyle={{
+          textDecoration: 'none',
+          color: 'black'
+        }}>All Issues</Link>
         <Link to='/login' activeStyle={{
           textDecoration: 'none',
           color: 'black'
