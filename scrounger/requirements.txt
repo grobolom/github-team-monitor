@@ -1,6 +1,7 @@
 Flask
 Flask-APScheduler
 Flask-Bcrypt
+Flask-CORS
 Flask-SQLAlchemy
 psycopg2
 pymongo
