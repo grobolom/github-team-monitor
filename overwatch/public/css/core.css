@@ -16,3 +16,18 @@ ul {
 header {
   padding: 5px 20px;
 }
+
+.form-row {
+  height: 15px;
+  padding: 10px 0px 0px 0px;
+  width: 300px;
+}
+
+.form-row input {
+  float: right;
+}
+
+.form-row button {
+  padding: 10px;
+  width: auto;
+}

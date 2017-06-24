@@ -19,3 +19,12 @@ export function fetchTeams() {
       .then(json => dispatch({ type: RECEIVE_TEAMS, teams: json}))
   }
 }
+
+export function login(data) {
+  return dispatch => {
+    return fetch('//localhost:5000/login', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }).then(response => response.json())
+  }
+}
