@@ -90,4 +90,4 @@ def register_user(email, password):
 def check_user_login(email, password):
     user = User.query.filter_by(email=email).first()
 
-    return user and bcrypt.check_password_hash(user.password, password)
+    return bool(user and bcrypt.check_password_hash(user.password, password))

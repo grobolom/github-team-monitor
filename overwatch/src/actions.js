@@ -22,9 +22,13 @@ export function fetchTeams() {
 
 export function login(data) {
   return dispatch => {
+    const form = new FormData()
+    form.append('username', data['username'])
+    form.append('password', data['password'])
+
     return fetch('//localhost:5000/login', {
       method: 'POST',
-      body: JSON.stringify(data),
+      body: form,
     }).then(response => response.json())
   }
 }
