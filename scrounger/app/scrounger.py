@@ -90,7 +90,7 @@ def register():
 
 @app.route('/login', methods=['POST'])
 def login():
-    data = request.form
+    data = request.json
 
     result = check_user_login(data['username'], data['password'])
     if result:
