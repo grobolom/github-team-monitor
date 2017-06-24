@@ -6,6 +6,7 @@ from logging.config import dictConfig
 from flask import Flask, request, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_apscheduler import APScheduler
+from flask_cors import CORS, cross_origin
 
 from extensions import db, bcrypt
 from settings import BaseConfig
@@ -21,6 +22,7 @@ app = Flask(__name__)
 app.config.from_object(BaseConfig)
 db.init_app(app)
 bcrypt.init_app(app)
+CORS(app)
 
 
 @app.route('/issues')
