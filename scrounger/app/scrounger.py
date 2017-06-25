@@ -28,6 +28,7 @@ JWTManager(app)
 
 
 @app.route('/issues')
+@jwt_required
 def issues():
     items = get_issues()
 
@@ -35,6 +36,7 @@ def issues():
 
 
 @app.route('/teams', methods=['GET', 'POST'])
+@jwt_required
 def teams():
     if request.method == 'GET':
         items = get_teams()
