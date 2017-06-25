@@ -13,8 +13,8 @@ const Root = ({ store }) => (
   <Provider store={store}>
     <Router history={browserHistory}>
       <Redirect from="/" to="/monitor" />
-      <Route path="/monitor" component={Monitor} />
-      <Route path="/all" component={AllIssues} />
+      <Route path="/monitor" component={Authenticate(Monitor)} />
+      <Route path="/all" component={Authenticate(AllIssues)} />
       <Route path="/teams" component={Authenticate(TeamBuilder)} />
       <Route path="/login" component={LoginPage} />
     </Router>

@@ -5,13 +5,13 @@ export default (ComposedComponent) => {
   class Authenticate extends React.Component {
     componentWillMount = () => {
       if (!this.props.isAuthenticated) {
-        this.context.router.push('/monitor')
+        this.context.router.push('/login')
       }
     }
 
     componentWillUpdate = (nextProps) => {
       if (!nextProps.isAuthenticated) {
-        this.context.router.push('/monitor')
+        this.context.router.push('/login')
       }
     }
 
@@ -30,7 +30,7 @@ export default (ComposedComponent) => {
 
   function mapStateToProps(state) {
     return {
-      isAuthenticated: state.isAuthenticated,
+      isAuthenticated: state.auth.isAuthenticated,
     }
   }
 

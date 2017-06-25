@@ -35,7 +35,14 @@ export function login(data) {
         localStorage.setItem('jwtToken', token)
         setAuthorizationToken(token)
         dispatch(fetchIssues('VID'))
+        dispatch(loginSuccess())
       })
+  }
+}
+
+export function loginSuccess() {
+  return {
+    type: LOGIN_SUCCESS,
   }
 }
 
