@@ -2,6 +2,7 @@ Flask
 Flask-APScheduler
 Flask-Bcrypt
 Flask-CORS
+Flask-JWT-Extended
 Flask-SQLAlchemy
 psycopg2
 pymongo
