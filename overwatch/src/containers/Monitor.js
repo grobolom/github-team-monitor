@@ -1,11 +1,11 @@
 import { connect } from 'react-redux'
-import React, { Component } from 'react'
+import React from 'react'
 
 import PRList from '../components/PRList';
 import NavBar from '../components/NavBar';
 import TeamSelector from './TeamSelector';
 
-class Monitor extends Component {
+class Monitor extends React.Component {
   render() {
     return (
       <div>

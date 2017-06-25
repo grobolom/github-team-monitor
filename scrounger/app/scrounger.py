@@ -4,9 +4,10 @@ from logging import getLogger
 from logging.config import dictConfig
 
 from flask import Flask, request, session
-from flask_sqlalchemy import SQLAlchemy
 from flask_apscheduler import APScheduler
 from flask_cors import CORS, cross_origin
+from flask_jwt_extended import JWTManager, jwt_required, create_access_token
+from flask_sqlalchemy import SQLAlchemy
 
 from extensions import db, bcrypt
 from settings import BaseConfig
@@ -23,6 +24,7 @@ app.config.from_object(BaseConfig)
 db.init_app(app)
 bcrypt.init_app(app)
 CORS(app)
+JWTManager(app)
 
 
 @app.route('/issues')
@@ -51,6 +53,7 @@ def teams():
 
 
 @app.route('/teams/<name>/issues')
+@jwt_required
 def teams_issues(name):
     prs = get_team_issues(name)
 
@@ -95,8 +98,11 @@ def login():
     result = check_user_login(data['username'], data['password'])
     if result:
         session['logged_in'] = True
+        return json.dumps({
+            'access_token': create_access_token(identity=data['username'])
+        }), 200
 
-    return json.dumps({'success': result}), 200
+    return json.dumps({'failed': 'invalid credentials'}), 400
 
 
 @app.route('/logout')

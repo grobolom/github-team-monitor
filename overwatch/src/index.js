@@ -3,7 +3,10 @@ import ReactDOM from 'react-dom';
 
 import Root from './containers/Root';
 import Store from './store';
-import { fetchTeams, fetchIssues, fetchAllIssues } from './actions'
+
+import {
+  fetchTeams, fetchIssues, fetchAllIssues, setAuthorizationToken
+} from './actions'
 
 import '../public/css/core.css';
 import '../public/css/builder.css';
@@ -15,6 +18,8 @@ const StoreInstance = Store({
   prs: [],
   teams: [],
 });
+
+setAuthorizationToken(localStorage.jwtToken)
 
 StoreInstance.dispatch(fetchTeams())
 StoreInstance.dispatch(fetchIssues('VID'))

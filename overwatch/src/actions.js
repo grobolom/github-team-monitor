@@ -30,6 +30,12 @@ export function fetchTeams() {
 export function login(data) {
   return dispatch => {
     return axios.post('//localhost:5000/login', data)
+      .then(json => {
+        const token = json.data.access_token
+        localStorage.setItem('jwtToken', token)
+        setAuthorizationToken(token)
+        dispatch(fetchIssues('VID'))
+      })
   }
 }
 
@@ -37,5 +43,13 @@ export function selectTeam(name) {
   return {
     type: SELECT_TEAM,
     team: name,
+  }
+}
+
+export function setAuthorizationToken(token) {
+  if (token) {
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  } else {
+    delete axios.defaults.headers.common['Authorization']
   }
 }

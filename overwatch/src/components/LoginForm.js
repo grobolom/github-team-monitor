@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { login } from '../actions'
+import { login, fetchIssues } from '../actions'
 
 class LoginForm extends React.Component {
   constructor(props) {
@@ -20,7 +20,7 @@ class LoginForm extends React.Component {
 
     this.setState({ isLoading: true })
     this.props.login(this.state).then(
-      (res) => this.context.router.push('/teams'),
+      (res) => this.context.router.push('/monitor'),
       (err) => this.setState({ isLoading: false })
     )
   }
@@ -71,6 +71,7 @@ class LoginForm extends React.Component {
 }
 
 LoginForm.propTypes = {
+  dispatch: React.PropTypes.func.isRequired,
   login: React.PropTypes.func.isRequired,
 }
 
